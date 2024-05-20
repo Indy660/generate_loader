@@ -22,11 +22,11 @@ body {
   left: 50%;
 
   --from: 80px;
-  --to: 400px;
-  --size: 50px;
-  --time: 10s;
+  --to: 200px;
+  --size: 32px;
+  --time: 7s;
   --count: 51; /* up to 100 */
-  --turns: 60000;
+  --turns: 6;
 }
 
 .circle {
