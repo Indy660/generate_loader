@@ -1,5 +1,7 @@
 # generate_loader
 
+## [Original idea](https://www.youtube.com/watch?v=ORxJ-lu89e8) and [code](https://codepen.io/miocene/pen/WNLQKEJ)
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
