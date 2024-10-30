@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// TODO: исправить
-// @ts-nocheck
+// TODO: исправить проверку в в-моделях
 import { ref, defineProps, defineEmits, defineModel } from 'vue'
 import InputNumber from 'primevue/inputnumber'
 type constCssType = {
