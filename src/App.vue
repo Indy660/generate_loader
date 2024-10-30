@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref, computed } from 'vue'
 import Drawer from 'primevue/drawer'
+import Button from 'primevue/button'
 import FormSettings from '@/components/FormSettings.vue'
 const isShowSidebar = ref(true)
 const numberOfCircles = ref(100)
@@ -29,65 +30,53 @@ const constCSSWrapper = computed(() => {
     <div class="loader rainbow">
       <div v-for="index in numberOfCircles" :key="index" class="circle" :style="{ '--i': index }" />
     </div>
-    <Drawer v-model:visible="isShowSidebar" header="Right Drawer" position="right">
-      <FormSettings />
+    <Button @click="isShowSidebar = !isShowSidebar" label="Настройки" icon="pi pi-palette" />
+    <Drawer v-model:visible="isShowSidebar" header="Настройки" position="right">
+      <FormSettings v-model="constCss" />
     </Drawer>
-    <!--    <transition name="sidebar">-->
-    <!--      <SideBar v-show="isShowSidebar" />-->
-    <!--    </transition>-->
   </main>
 </template>
 
 <!--https://codepen.io/miocene/pen/WNLQKEJ-->
-<style>
-body {
-  background: #333333;
+<style lang="scss">
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 main {
   height: 100vh;
   width: 100vw;
-}
-.loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  background: #333333;
+  overflow: hidden;
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
 
-  --from: v-bind('constCSSWrapper.transformFrom');
-  --to: v-bind('constCSSWrapper.transformTo');
-  --size: v-bind('constCSSWrapper.size');
-  --time: v-bind('constCSSWrapper.time');
-  --count: v-bind('constCSSWrapper.count');
-  --turns: v-bind('constCSSWrapper.turns');
-  /*--from: 80px;*/
-  /*--to: 200px;*/
-  /*--size: 32px;*/
-  /*--time: 7s;*/
-  /*--count: 51;*/
-  /*--turns: 6;*/
-}
-
-.circle {
-  position: absolute;
-
-  --delay: calc(var(--time) / var(--count) * -1 * var(--i));
-  rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
-
-  animation: circle var(--time) var(--delay) ease-in-out infinite;
-}
-
-.circle::before {
-  content: '';
-  display: block;
-  width: var(--size);
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  background-color: white;
-  transform-origin: center center;
-  animation: circleSize var(--time) var(--delay) ease-in-out infinite;
-}
-
-.rainbow .circle::before {
-  background-color: hsl(calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%);
+    --from: v-bind('constCSSWrapper.transformFrom');
+    --to: v-bind('constCSSWrapper.transformTo');
+    --size: v-bind('constCSSWrapper.size');
+    --time: v-bind('constCSSWrapper.time');
+    --count: v-bind('constCSSWrapper.count');
+    --turns: v-bind('constCSSWrapper.turns');
+    .circle {
+      position: absolute;
+      --delay: calc(var(--time) / var(--count) * -1 * var(--i));
+      rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
+      animation: circle var(--time) var(--delay) ease-in-out infinite;
+    }
+    .circle::before {
+      content: '';
+      display: block;
+      width: var(--size);
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      transform-origin: center center;
+      animation: circleSize var(--time) var(--delay) ease-in-out infinite;
+      background-color: hsl(calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%);
+    }
+  }
 }
 
 /* animations */
