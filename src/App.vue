@@ -5,7 +5,15 @@ import Button from 'primevue/button'
 import FormSettings from '@/components/FormSettings.vue'
 const isShowSidebar = ref(true)
 const numberOfCircles = ref(100)
-const constCss = reactive({
+type constCssType = {
+  transformFrom: number
+  transformTo: number
+  size: number
+  time: number
+  count: number
+  turns: number
+}
+const constCss = reactive<constCssType>({
   transformFrom: 80,
   transformTo: 200,
   size: 32,

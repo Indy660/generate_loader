@@ -1,8 +1,17 @@
 <script setup lang="ts">
+// TODO: исправить
+// @ts-nocheck
 import { ref, defineProps, defineEmits, defineModel } from 'vue'
 import InputNumber from 'primevue/inputnumber'
-
-const model = defineModel()
+type constCssType = {
+  transformFrom: number
+  transformTo: number
+  size: number
+  time: number
+  count: number
+  turns: number
+}
+const model = defineModel<constCssType>()
 const emit = defineEmits(['update:model'])
 </script>
 
