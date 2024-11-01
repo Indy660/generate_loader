@@ -3,17 +3,10 @@ import { reactive, ref, computed } from 'vue'
 import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import FormSettings from '@/components/FormSettings.vue'
+import type { constCssType } from '@/types'
+
 const isShowSidebar = ref(true)
 const numberOfCircles = ref(100)
-type constCssType = {
-  sizeLoader: number
-  transformFrom: number
-  transformTo: number
-  size: number
-  time: number
-  count: number
-  turns: number
-}
 
 const constCss = reactive<constCssType>({
   sizeLoader: 400,
@@ -83,7 +76,6 @@ main {
     width: v-bind('constCSSWrapper.sizeLoader');
     height: v-bind('constCSSWrapper.sizeLoader');
     border-radius: 50%;
-    border: 1px solid green;
 
     --from: v-bind('constCSSWrapper.transformFrom');
     --to: v-bind('constCSSWrapper.transformTo');
@@ -91,6 +83,9 @@ main {
     --time: v-bind('constCSSWrapper.time');
     --count: v-bind('constCSSWrapper.count');
     --turns: v-bind('constCSSWrapper.turns');
+    &:hover {
+      border: 1px solid #00ff00ff;
+    }
     .circle {
       position: absolute;
       top: calc(50% - var(--size) / 2);

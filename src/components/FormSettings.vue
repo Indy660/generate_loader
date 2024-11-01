@@ -1,16 +1,8 @@
 <script setup lang="ts">
-// TODO: исправить проверку в в-моделях
-import { ref, defineProps, defineEmits, defineModel } from 'vue'
+import { defineEmits, defineModel } from 'vue'
 import InputNumber from 'primevue/inputnumber'
-type constCssType = {
-  sizeLoader: number
-  transformFrom: number
-  transformTo: number
-  size: number
-  time: number
-  count: number
-  turns: number
-}
+import type { constCssType } from '@/types'
+
 const model = defineModel<constCssType>()
 const emit = defineEmits(['update:model'])
 </script>
@@ -22,7 +14,7 @@ const emit = defineEmits(['update:model'])
     <!--    TODO: сохранить в конечный вид-->
     <div class="placeholders"></div>
     <div class="settings">
-      <span class="label">Размер внешнего элемента (--transformFrom)</span>
+      <span class="label">Размер лоадера в пикселя (--sizeLoader)</span>
       <InputNumber
         class="field"
         v-model="model.sizeLoader"
@@ -39,7 +31,7 @@ const emit = defineEmits(['update:model'])
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Внешний размер лоадера в пикселях (--transformFrom)</span>
+      <span class="label">Внешний размер лоадера в процентах (--transformFrom)</span>
       <InputNumber
         class="field"
         v-model="model.transformFrom"
@@ -56,7 +48,7 @@ const emit = defineEmits(['update:model'])
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Внутренний отступ лоадера в пикселях (--transformTo)</span>
+      <span class="label">Внутренний отступ лоадера в процентах (--transformTo)</span>
       <InputNumber
         class="field"
         v-model="model.transformTo"
