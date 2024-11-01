@@ -6,6 +6,7 @@ import FormSettings from '@/components/FormSettings.vue'
 const isShowSidebar = ref(true)
 const numberOfCircles = ref(100)
 type constCssType = {
+  sizeLoader: number
   transformFrom: number
   transformTo: number
   size: number
@@ -13,18 +14,27 @@ type constCssType = {
   count: number
   turns: number
 }
+
 const constCss = reactive<constCssType>({
-  transformFrom: 80,
-  transformTo: 200,
+  sizeLoader: 400,
+  transformFrom: 30,
+  transformTo: 100,
   size: 32,
   time: 7,
   count: 51,
   turns: 6
 })
+const transformFromInPercent = computed(() => {
+  return (constCss.sizeLoader / 2 / constCss.size) * constCss.transformFrom
+})
+const transformToInPercent = computed(() => {
+  return (constCss.sizeLoader / 2 / constCss.size) * constCss.transformTo
+})
 const constCSSWrapper = computed(() => {
   return {
-    transformFrom: constCss.transformFrom + 'px',
-    transformTo: constCss.transformTo + 'px',
+    sizeLoader: constCss.sizeLoader + 'px',
+    transformFrom: transformFromInPercent.value + '%',
+    transformTo: transformToInPercent.value + '%',
     size: constCss.size + 'px',
     time: constCss.time + 's',
     count: constCss.count,
@@ -35,8 +45,15 @@ const constCSSWrapper = computed(() => {
 
 <template>
   <main>
-    <div class="loader rainbow">
-      <div v-for="index in numberOfCircles" :key="index" class="circle" :style="{ '--i': index }" />
+    <div class="loader">
+      <div class="rainbow">
+        <div
+          v-for="index in numberOfCircles"
+          :key="index"
+          class="circle"
+          :style="{ '--i': index }"
+        />
+      </div>
     </div>
     <Button @click="isShowSidebar = !isShowSidebar" label="Настройки" icon="pi pi-palette" />
     <Drawer v-model:visible="isShowSidebar" header="Настройки" position="right">
@@ -58,9 +75,15 @@ main {
   background: #333333;
   overflow: hidden;
   .loader {
-    position: absolute;
+    position: relative;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: v-bind('constCSSWrapper.sizeLoader');
+    height: v-bind('constCSSWrapper.sizeLoader');
+    border-radius: 50%;
+    border: 1px solid green;
 
     --from: v-bind('constCSSWrapper.transformFrom');
     --to: v-bind('constCSSWrapper.transformTo');
@@ -70,6 +93,8 @@ main {
     --turns: v-bind('constCSSWrapper.turns');
     .circle {
       position: absolute;
+      top: calc(50% - var(--size) / 2);
+      left: calc(50% - var(--size) / 2);
       --delay: calc(var(--time) / var(--count) * -1 * var(--i));
       rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
       animation: circle var(--time) var(--delay) ease-in-out infinite;

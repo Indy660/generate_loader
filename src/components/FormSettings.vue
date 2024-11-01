@@ -3,6 +3,7 @@
 import { ref, defineProps, defineEmits, defineModel } from 'vue'
 import InputNumber from 'primevue/inputnumber'
 type constCssType = {
+  sizeLoader: number
   transformFrom: number
   transformTo: number
   size: number
@@ -21,6 +22,23 @@ const emit = defineEmits(['update:model'])
     <!--    TODO: сохранить в конечный вид-->
     <div class="placeholders"></div>
     <div class="settings">
+      <span class="label">Размер внешнего элемента (--transformFrom)</span>
+      <InputNumber
+        class="field"
+        v-model="model.sizeLoader"
+        fluid
+        :step="10"
+        input-id="horizontal-buttons"
+        showButtons
+        buttonLayout="horizontal"
+      >
+        <template #incrementbuttonicon>
+          <span class="pi pi-plus" />
+        </template>
+        <template #decrementbuttonicon>
+          <span class="pi pi-minus" />
+        </template>
+      </InputNumber>
       <span class="label">Внешний размер лоадера в пикселях (--transformFrom)</span>
       <InputNumber
         class="field"
@@ -42,7 +60,6 @@ const emit = defineEmits(['update:model'])
       <InputNumber
         class="field"
         v-model="model.transformTo"
-        :min="0"
         fluid
         :step="10"
         input-id="horizontal-buttons"
