@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { defineEmits, defineModel } from 'vue'
 import InputNumber from 'primevue/inputnumber'
+import Checkbox from 'primevue/checkbox'
 import type { constCssType } from '@/types'
 
 const model = defineModel<constCssType>()
+//TODO: поправить
+const prop = defineProps({ isTransparent: Boolean })
 const emit = defineEmits(['update:model'])
 </script>
 
@@ -14,6 +17,14 @@ const emit = defineEmits(['update:model'])
     <!--    TODO: сохранить в конечный вид-->
     <div class="placeholders"></div>
     <div class="settings">
+      <div class="flex items-center gap-2">
+        <Checkbox
+          :model-value="prop.isTransparent"
+          binary
+          @change="emit('update:update-transparent')"
+        />
+        <label for="opacity"> Прозрачность </label>
+      </div>
       <span class="label">Размер лоадера в пикселя (--sizeLoader)</span>
       <InputNumber
         class="field"
@@ -143,6 +154,7 @@ const emit = defineEmits(['update:model'])
 
 <style scoped lang="scss">
 .form {
+  height: 100%;
   .settings {
     .label {
       display: inline-block;

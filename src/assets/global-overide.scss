@@ -1,0 +1,7 @@
+.p-overlay-mask {
+    @media screen and (max-width: 768px) {
+        .p-drawer.p-component.drawer {
+            height: 100vh !important;
+        }
+    }
+}

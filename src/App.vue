@@ -3,7 +3,10 @@ import { reactive, ref, computed } from 'vue'
 import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import FormSettings from '@/components/FormSettings.vue'
+import { useAdaptive } from '@/composable/useAdaptive'
 import type { constCssType } from '@/types'
+
+const { isMobile } = useAdaptive()
 
 const isShowSidebar = ref(true)
 const numberOfCircles = ref(100)
@@ -34,6 +37,11 @@ const constCSSWrapper = computed(() => {
     turns: constCss.turns
   }
 })
+
+const isTransparent = ref(true)
+const isTransparentStyle = computed(() => {
+  return { opacity: isTransparent.value ? 0.5 : 1 }
+})
 </script>
 
 <template>
@@ -48,8 +56,21 @@ const constCSSWrapper = computed(() => {
         />
       </div>
     </div>
-    <Button @click="isShowSidebar = !isShowSidebar" label="Настройки" icon="pi pi-palette" />
-    <Drawer v-model:visible="isShowSidebar" header="Настройки" position="right">
+    <Button
+      @click="isShowSidebar = !isShowSidebar"
+      class="button"
+      label="Настройки"
+      icon="pi pi-palette"
+    />
+    <Drawer
+      v-model:visible="isShowSidebar"
+      :isTransparent="isTransparent"
+      header="Настройки"
+      class="drawer"
+      :style="{ ...isTransparentStyle }"
+      :position="isMobile ? 'bottom' : 'right'"
+      @update-transparent="isTransparent = !isTransparent"
+    >
       <FormSettings v-model="constCss" />
     </Drawer>
   </main>
@@ -105,7 +126,28 @@ main {
       background-color: hsl(calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%);
     }
   }
+  .button {
+    @media screen and (max-width: 768px) {
+      position: absolute;
+      top: 5vh;
+      margin-inline: auto;
+      left: 0;
+      right: 0;
+      width: fit-content;
+    }
+  }
 }
+
+//.p-overlay-mask {
+//  background-color: red;
+//  //:deep(.p-drawer-bottom .p-drawer) {
+//  @media screen and (max-width: 768px) {
+//    .p-drawer-bottom .p-drawer {
+//      height: 100vh;
+//    }
+//    //}
+//  }
+//}
 
 /* animations */
 @keyframes circle {

@@ -7,3 +7,5 @@ export type constCssType = {
   count: number
   turns: number
 }
+
+export type constCssPropsType = constCssType & { isTransparent: boolean }
