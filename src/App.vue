@@ -40,7 +40,7 @@ const constCSSWrapper = computed(() => {
 
 const isTransparent = ref(true)
 const isTransparentStyle = computed(() => {
-  return { opacity: isTransparent.value ? 0.5 : 1 }
+  return { opacity: isTransparent.value ? 0.8 : 1 }
 })
 </script>
 
@@ -64,14 +64,16 @@ const isTransparentStyle = computed(() => {
     />
     <Drawer
       v-model:visible="isShowSidebar"
-      :isTransparent="isTransparent"
       header="Настройки"
       class="drawer"
       :style="{ ...isTransparentStyle }"
       :position="isMobile ? 'bottom' : 'right'"
-      @update-transparent="isTransparent = !isTransparent"
     >
-      <FormSettings v-model="constCss" />
+      <FormSettings
+        v-model="constCss"
+        :is-transparent="isTransparent"
+        @update-transparent="isTransparent = !isTransparent"
+      />
     </Drawer>
   </main>
 </template>

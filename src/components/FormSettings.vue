@@ -7,7 +7,7 @@ import type { constCssType } from '@/types'
 const model = defineModel<constCssType>()
 //TODO: поправить
 const prop = defineProps({ isTransparent: Boolean })
-const emit = defineEmits(['update:model'])
+const emit = defineEmits(['update:model', 'update-transparent'])
 </script>
 
 <template>
@@ -17,12 +17,8 @@ const emit = defineEmits(['update:model'])
     <!--    TODO: сохранить в конечный вид-->
     <div class="placeholders"></div>
     <div class="settings">
-      <div class="flex items-center gap-2">
-        <Checkbox
-          :model-value="prop.isTransparent"
-          binary
-          @change="emit('update:update-transparent')"
-        />
+      <div class="flex items-center gap-2 field">
+        <Checkbox :model-value="prop.isTransparent" binary @change="emit('update-transparent')" />
         <label for="opacity"> Прозрачность </label>
       </div>
       <span class="label">Размер лоадера в пикселя (--sizeLoader)</span>
