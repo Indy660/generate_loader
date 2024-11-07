@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, computed } from 'vue'
+import {reactive, ref, computed, onMounted} from 'vue'
 import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import FormSettings from '@/components/FormSettings.vue'
@@ -8,7 +8,7 @@ import type { constCssType } from '@/types'
 
 const { isMobile } = useAdaptive()
 
-const isShowSidebar = ref(true)
+const isShowSidebar = ref(false)
 const numberOfCircles = ref(100)
 
 const constCss = reactive<constCssType>({
@@ -41,6 +41,11 @@ const constCSSWrapper = computed(() => {
 const isTransparent = ref(true)
 const isTransparentStyle = computed(() => {
   return { opacity: isTransparent.value ? 0.8 : 1 }
+})
+onMounted(() => {
+  if(!isMobile.value) {
+    isTransparent.value = false
+  }
 })
 </script>
 
@@ -139,17 +144,6 @@ main {
     }
   }
 }
-
-//.p-overlay-mask {
-//  background-color: red;
-//  //:deep(.p-drawer-bottom .p-drawer) {
-//  @media screen and (max-width: 768px) {
-//    .p-drawer-bottom .p-drawer {
-//      height: 100vh;
-//    }
-//    //}
-//  }
-//}
 
 /* animations */
 @keyframes circle {

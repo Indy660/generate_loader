@@ -2,7 +2,10 @@
 import { defineEmits, defineModel } from 'vue'
 import InputNumber from 'primevue/inputnumber'
 import Checkbox from 'primevue/checkbox'
+import { useAdaptive } from '@/composable/useAdaptive'
 import type { constCssType } from '@/types'
+
+const { isMobile } = useAdaptive()
 
 const model = defineModel<constCssType>()
 //TODO: поправить
@@ -17,10 +20,64 @@ const emit = defineEmits(['update:model', 'update-transparent'])
     <!--    TODO: сохранить в конечный вид-->
     <div class="placeholders"></div>
     <div class="settings">
-      <div class="flex items-center gap-2 field">
+      <div v-if="isMobile" class="flex items-center gap-2 field">
         <Checkbox :model-value="prop.isTransparent" binary @change="emit('update-transparent')" />
         <label for="opacity"> Прозрачность </label>
       </div>
+      <span class="label">Количество кругов вокруг (--count)</span>
+      <InputNumber
+        class="field"
+        v-model="model.count"
+        :min="0"
+        fluid
+        :step="1"
+        input-id="horizontal-buttons"
+        showButtons
+        buttonLayout="horizontal"
+      >
+        <template #incrementbuttonicon>
+          <span class="pi pi-plus" />
+        </template>
+        <template #decrementbuttonicon>
+          <span class="pi pi-minus" />
+        </template>
+      </InputNumber>
+      <span class="label">Сколько кругов "в одной" линии(--turns)</span>
+      <InputNumber
+        class="field"
+        v-model="model.turns"
+        :min="0"
+        fluid
+        :step="1"
+        input-id="horizontal-buttons"
+        showButtons
+        buttonLayout="horizontal"
+      >
+        <template #incrementbuttonicon>
+          <span class="pi pi-plus" />
+        </template>
+        <template #decrementbuttonicon>
+          <span class="pi pi-minus" />
+        </template>
+      </InputNumber>
+      <span class="label">Время анимации в секундах (--time)</span>
+      <InputNumber
+        class="field"
+        v-model="model.time"
+        :min="0"
+        fluid
+        :step="0.25"
+        input-id="horizontal-buttons"
+        showButtons
+        buttonLayout="horizontal"
+      >
+        <template #incrementbuttonicon>
+          <span class="pi pi-plus" />
+        </template>
+        <template #decrementbuttonicon>
+          <span class="pi pi-minus" />
+        </template>
+      </InputNumber>
       <span class="label">Размер лоадера в пикселя (--sizeLoader)</span>
       <InputNumber
         class="field"
@@ -76,60 +133,6 @@ const emit = defineEmits(['update:model', 'update-transparent'])
       <InputNumber
         class="field"
         v-model="model.size"
-        fluid
-        :step="1"
-        input-id="horizontal-buttons"
-        showButtons
-        buttonLayout="horizontal"
-      >
-        <template #incrementbuttonicon>
-          <span class="pi pi-plus" />
-        </template>
-        <template #decrementbuttonicon>
-          <span class="pi pi-minus" />
-        </template>
-      </InputNumber>
-      <span class="label">Время анимации в секундах (--time)</span>
-      <InputNumber
-        class="field"
-        v-model="model.time"
-        :min="0"
-        fluid
-        :step="0.25"
-        input-id="horizontal-buttons"
-        showButtons
-        buttonLayout="horizontal"
-      >
-        <template #incrementbuttonicon>
-          <span class="pi pi-plus" />
-        </template>
-        <template #decrementbuttonicon>
-          <span class="pi pi-minus" />
-        </template>
-      </InputNumber>
-      <span class="label">Количество кругов вокруг (--count)</span>
-      <InputNumber
-        class="field"
-        v-model="model.count"
-        :min="0"
-        fluid
-        :step="1"
-        input-id="horizontal-buttons"
-        showButtons
-        buttonLayout="horizontal"
-      >
-        <template #incrementbuttonicon>
-          <span class="pi pi-plus" />
-        </template>
-        <template #decrementbuttonicon>
-          <span class="pi pi-minus" />
-        </template>
-      </InputNumber>
-      <span class="label">Сколько кругов "в одной" линии(--turns)</span>
-      <InputNumber
-        class="field"
-        v-model="model.turns"
-        :min="0"
         fluid
         :step="1"
         input-id="horizontal-buttons"
