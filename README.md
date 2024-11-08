@@ -1,7 +1,8 @@
-# generate_loader
+## [🎥 Original idea](https://www.youtube.com/watch?v=ORxJ-lu89e8) 
 
-## [Original idea](https://www.youtube.com/watch?v=ORxJ-lu89e8) and [code](https://codepen.io/miocene/pen/WNLQKEJ)
+## [Github page](https://indy660.github.io/generate_loader/)
 
+---
 
 ## Project Setup
 
