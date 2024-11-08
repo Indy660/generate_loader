@@ -8,7 +8,6 @@ import type { constCssType } from '@/types'
 const { isMobile } = useAdaptive()
 
 const model = defineModel<constCssType>()
-//TODO: поправить
 const prop = defineProps({ isTransparent: Boolean })
 const emit = defineEmits(['update:model', 'update-transparent'])
 </script>
@@ -16,14 +15,34 @@ const emit = defineEmits(['update:model', 'update-transparent'])
 <template>
   <div class="form">
     <!--    TODO: плейсхолдеры-->
-    <!--    TODO: настройки-->
     <!--    TODO: сохранить в конечный вид-->
-    <div class="placeholders"></div>
+    <div class="placeholders">
+
+    </div>
+    <!--    TODO: настройки-->
     <div class="settings">
       <div v-if="isMobile" class="flex items-center gap-2 field">
         <Checkbox :model-value="prop.isTransparent" binary @change="emit('update-transparent')" />
         <label for="opacity"> Прозрачность </label>
       </div>
+      <span class="label">Количество кругов</span>
+      <InputNumber
+        class="field"
+        v-model="model.numberOfCircles"
+        :min="0"
+        fluid
+        :step="1"
+        input-id="horizontal-buttons"
+        showButtons
+        buttonLayout="horizontal"
+      >
+        <template #incrementbuttonicon>
+          <span class="pi pi-plus" />
+        </template>
+        <template #decrementbuttonicon>
+          <span class="pi pi-minus" />
+        </template>
+      </InputNumber>
       <span class="label">Количество кругов вокруг (--count)</span>
       <InputNumber
         class="field"

@@ -1,24 +1,25 @@
 <script setup lang="ts">
-import {reactive, ref, computed, onMounted} from 'vue'
+import { reactive, ref, computed, onMounted } from 'vue'
 import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import FormSettings from '@/components/FormSettings.vue'
+import { placeholder } from '@/placeholders'
 import { useAdaptive } from '@/composable/useAdaptive'
 import type { constCssType } from '@/types'
 
 const { isMobile } = useAdaptive()
 
 const isShowSidebar = ref(false)
-const numberOfCircles = ref(100)
 
-const constCss = reactive<constCssType>({
+let constCss = reactive<constCssType>({
+  numberOfCircles: 100,
+  count: 51,
+  turns: 6,
   sizeLoader: 400,
   transformFrom: 30,
   transformTo: 100,
   size: 32,
-  time: 7,
-  count: 51,
-  turns: 6
+  time: 7
 })
 const transformFromInPercent = computed(() => {
   return (constCss.sizeLoader / 2 / constCss.size) * constCss.transformFrom
@@ -42,8 +43,14 @@ const isTransparent = ref(true)
 const isTransparentStyle = computed(() => {
   return { opacity: isTransparent.value ? 0.8 : 1 }
 })
+
+function changeCss(index: number) {
+  // проверить
+  constCss = placeholder[index].constCss
+}
+
 onMounted(() => {
-  if(!isMobile.value) {
+  if (!isMobile.value) {
     isTransparent.value = false
   }
 })
@@ -54,7 +61,7 @@ onMounted(() => {
     <div class="loader">
       <div class="rainbow">
         <div
-          v-for="index in numberOfCircles"
+          v-for="index in constCss.numberOfCircles"
           :key="index"
           class="circle"
           :style="{ '--i': index }"

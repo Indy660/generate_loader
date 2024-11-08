@@ -1,4 +1,5 @@
 export type constCssType = {
+  numberOfCircles: number
   sizeLoader: number
   transformFrom: number
   transformTo: number
