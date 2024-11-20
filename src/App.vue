@@ -1,41 +1,32 @@
 <script setup lang="ts">
-import { reactive, ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import FormSettings from '@/components/FormSettings.vue'
-import { placeholder } from '@/placeholders'
+import { examples } from '@/examples'
 import { useAdaptive } from '@/composable/useAdaptive'
 import type { constCssType } from '@/types'
 
 const { isMobile } = useAdaptive()
 
 const isShowSidebar = ref(false)
-
-let constCss = reactive<constCssType>({
-  numberOfCircles: 100,
-  count: 51,
-  turns: 6,
-  sizeLoader: 400,
-  transformFrom: 30,
-  transformTo: 100,
-  size: 32,
-  time: 7
-})
+const currentPlaceholder = ref(0)
+let constCss = ref<constCssType>(examples[currentPlaceholder.value].constCss)
 const transformFromInPercent = computed(() => {
-  return (constCss.sizeLoader / 2 / constCss.size) * constCss.transformFrom
+  return (constCss.value.sizeLoader / 2 / constCss.value.size) * constCss.value.transformFrom
 })
 const transformToInPercent = computed(() => {
-  return (constCss.sizeLoader / 2 / constCss.size) * constCss.transformTo
+  return (constCss.value.sizeLoader / 2 / constCss.value.size) * constCss.value.transformTo
 })
 const constCSSWrapper = computed(() => {
   return {
-    sizeLoader: constCss.sizeLoader + 'px',
+    sizeLoader: constCss.value.sizeLoader + 'px',
     transformFrom: transformFromInPercent.value + '%',
     transformTo: transformToInPercent.value + '%',
-    size: constCss.size + 'px',
-    time: constCss.time + 's',
-    count: constCss.count,
-    turns: constCss.turns
+    size: constCss.value.size + 'px',
+    time: constCss.value.time + 's',
+    count: constCss.value.count,
+    turns: constCss.value.turns
   }
 })
 
@@ -44,9 +35,9 @@ const isTransparentStyle = computed(() => {
   return { opacity: isTransparent.value ? 0.8 : 1 }
 })
 
-function changeCss(index: number) {
-  // проверить
-  constCss = placeholder[index].constCss
+function changeLoader(id: number) {
+  currentPlaceholder.value = id
+  constCss.value = examples[id].constCss
 }
 
 onMounted(() => {
@@ -82,9 +73,11 @@ onMounted(() => {
       :position="isMobile ? 'bottom' : 'right'"
     >
       <FormSettings
-        v-model="constCss"
+        v-model.constCss="constCss"
         :is-transparent="isTransparent"
+        :examples="examples"
         @update-transparent="isTransparent = !isTransparent"
+        @change-example="changeLoader"
       />
     </Drawer>
   </main>
