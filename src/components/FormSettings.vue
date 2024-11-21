@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineEmits, defineModel } from 'vue'
+import { defineEmits, defineModel, computed } from 'vue'
 import Card from 'primevue/card'
 import InputNumber from 'primevue/inputnumber'
 import Checkbox from 'primevue/checkbox'
@@ -11,23 +11,26 @@ const { isMobile } = useAdaptive()
 const model = defineModel<constCssType>()
 const prop = defineProps({ isTransparent: Boolean, examples: Object })
 const emit = defineEmits(['update:model', 'update-transparent', 'change-example'])
+function getImageUrl(id: number) {
+  // TODO: как сделать через @, через статичный computed (с айди внутри) работает
+  return new URL(`../assets/gif_examples/${id}.gif`, import.meta.url).href
+}
 </script>
 
 <template>
   <div class="form">
     <!--    TODO: плейсхолдеры-->
-    <!--    TODO: сохранить в конечный вид-->
     <Card>
       <template #title>Примеры:</template>
       <template #content>
         <div class="examples">
-          <div
+          <img
             v-for="example in prop.examples"
             class="example"
             @click="emit('change-example', example.id)"
-          >
-            {{ example.id + 1 }}
-          </div>
+            :src="getImageUrl(example.id)"
+            :key="example.id"
+          />
         </div>
       </template>
     </Card>
@@ -181,6 +184,7 @@ const emit = defineEmits(['update:model', 'update-transparent', 'change-example'
         </InputNumber>
       </template>
     </Card>
+    <!--    TODO: сохранить в конечный вид-->
     <div class="save"></div>
   </div>
 </template>
@@ -192,7 +196,7 @@ const emit = defineEmits(['update:model', 'update-transparent', 'change-example'
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    //gap: 12px;
+    gap: 12px;
     width: 100%;
     .example {
       width: 45%;
@@ -201,9 +205,9 @@ const emit = defineEmits(['update:model', 'update-transparent', 'change-example'
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
+      //&:hover {
+      //  background-color: rgba(0, 0, 0, 0.1);
+      //}
     }
   }
   .settings {

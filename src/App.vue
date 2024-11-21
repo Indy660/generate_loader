@@ -10,7 +10,7 @@ import type { constCssType } from '@/types'
 const { isMobile } = useAdaptive()
 
 const isShowSidebar = ref(false)
-const currentPlaceholder = ref(0)
+const currentPlaceholder = ref(4)
 let constCss = ref<constCssType>(examples[currentPlaceholder.value].constCss)
 const transformFromInPercent = computed(() => {
   return (constCss.value.sizeLoader / 2 / constCss.value.size) * constCss.value.transformFrom

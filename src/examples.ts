@@ -10,7 +10,6 @@ export const examples = [
       size: 32,
       time: 7
     },
-    previewPath: '',
     id: 0
   },
   {
@@ -24,7 +23,6 @@ export const examples = [
       size: 20,
       time: 3
     },
-    previewPath: '',
     id: 1
   },
   {
@@ -38,7 +36,6 @@ export const examples = [
       size: 20,
       time: 4
     },
-    previewPath: '',
     id: 2
   },
   {
@@ -52,7 +49,6 @@ export const examples = [
       transformTo: -80,
       turns: 9
     },
-    previewPath: '',
     id: 3
   },
   {
@@ -66,7 +62,6 @@ export const examples = [
       size: 20,
       time: 4
     },
-    previewPath: '',
     id: 4
   }
 ]
