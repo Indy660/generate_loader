@@ -40,6 +40,36 @@ function changeLoader(id: number) {
   constCss.value = examples[id].constCss
 }
 
+// TODO: доделать
+const KEY_STORAGE = 'customSettings'
+function getSettingsToLocalStorage(): constCssType[] {
+  const localStorageSettings = localStorage.getItem(KEY_STORAGE)
+  return localStorageSettings?.length ? JSON.parse(localStorageSettings) : []
+}
+//   if (localStorageObjects) {
+//     constCss = JSON.parse(localStorageObjects)
+//   }
+//
+//   localStorageObjects.push(object)
+//   localStorage.setItem(KEY_STORAGE, JSON.stringify(objects))
+// }
+// function deleteSettingFromLocalStorage(index: number): void {
+//   const localStorageObjects = localStorage.getItem(KEY_STORAGE)
+//
+//   if (localStorageObjects) {
+//     let objects = JSON.parse(localStorageObjects)
+//
+//     if (index >= 0 && index < objects.length) {
+//       objects.splice(index, 1)
+//       localStorage.setItem(KEY_STORAGE, JSON.stringify(objects))
+//     } else {
+//       console.error('Index out of bounds')
+//     }
+//   } else {
+//     console.warn('No objects found in localStorage')
+//   }
+// }
+
 onMounted(() => {
   if (!isMobile.value) {
     isTransparent.value = false
@@ -78,6 +108,7 @@ onMounted(() => {
         :examples="examples"
         @update-transparent="isTransparent = !isTransparent"
         @change-example="changeLoader"
+        @save-setting="saveSettingToLocalStorage"
       />
     </Drawer>
   </main>

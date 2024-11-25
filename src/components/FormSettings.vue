@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { defineEmits, defineModel, computed } from 'vue'
+import { defineEmits, defineModel } from 'vue'
 import Card from 'primevue/card'
 import InputNumber from 'primevue/inputnumber'
 import Checkbox from 'primevue/checkbox'
+import Button from 'primevue/button'
 import { useAdaptive } from '@/composable/useAdaptive'
 import type { constCssType } from '@/types'
 
@@ -10,17 +11,21 @@ const { isMobile } = useAdaptive()
 
 const model = defineModel<constCssType>()
 const prop = defineProps({ isTransparent: Boolean, examples: Object })
-const emit = defineEmits(['update:model', 'update-transparent', 'change-example'])
+const emit = defineEmits(['update:model', 'update-transparent', 'change-example', 'save-setting'])
 function getImageUrl(id: number) {
   // TODO: как сделать через @, через статичный computed (с айди внутри) работает
   return new URL(`../assets/gif_examples/${id}.gif`, import.meta.url).href
+}
+
+function saveSetting() {
+  emit('save-setting')
 }
 </script>
 
 <template>
   <div class="form">
     <!--    TODO: плейсхолдеры-->
-    <Card>
+    <Card class="placeholders">
       <template #title>Примеры:</template>
       <template #content>
         <div class="examples">
@@ -185,7 +190,11 @@ function getImageUrl(id: number) {
       </template>
     </Card>
     <!--    TODO: сохранить в конечный вид-->
-    <div class="save"></div>
+    <Card class="save">
+      <template #content>
+        <Button label="Сохранить" severity="success" variant="outlined" @click="saveSetting" />
+      </template>
+    </Card>
   </div>
 </template>
 
@@ -209,6 +218,9 @@ function getImageUrl(id: number) {
       //  background-color: rgba(0, 0, 0, 0.1);
       //}
     }
+  }
+  .placeholders {
+    margin-bottom: 12px;
   }
   .settings {
     .label {
