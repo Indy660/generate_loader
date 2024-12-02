@@ -18,12 +18,16 @@ const transformFromInPercent = computed(() => {
 const transformToInPercent = computed(() => {
   return (constCss.value.sizeLoader / 2 / constCss.value.size) * constCss.value.transformTo
 })
+const sizeInnerCircles = computed(() => {
+  return (constCss.value.transformFrom / constCss.value.transformTo) * constCss.value.sizeLoader
+})
 const constCSSWrapper = computed(() => {
   return {
     sizeLoader: constCss.value.sizeLoader + 'px',
     transformFrom: transformFromInPercent.value + '%',
     transformTo: transformToInPercent.value + '%',
-    size: constCss.value.size + 'px',
+    sizeCircles: constCss.value.size + 'px',
+    sizeInnerCircles: sizeInnerCircles.value + 'px',
     time: constCss.value.time + 's',
     count: constCss.value.count,
     turns: constCss.value.turns
@@ -80,14 +84,15 @@ onMounted(() => {
 <template>
   <main>
     <div class="loader">
-      <div class="rainbow">
-        <div
-          v-for="index in constCss.numberOfCircles"
-          :key="index"
-          class="circle"
-          :style="{ '--i': index }"
-        />
-      </div>
+      <div class="inner-circle"></div>
+      <!--      <div class="rainbow">-->
+      <div
+        v-for="index in constCss.numberOfCircles"
+        :key="index"
+        class="circle"
+        :style="{ '--i': index }"
+      />
+      <!--      </div>-->
     </div>
     <Button
       @click="isShowSidebar = !isShowSidebar"
@@ -132,13 +137,14 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: v-bind('constCSSWrapper.sizeLoader');
-    height: v-bind('constCSSWrapper.sizeLoader');
+    width: var(--sizeLoader);
+    height: var(--sizeLoader);
     border-radius: 50%;
 
+    --sizeLoader: v-bind('constCSSWrapper.sizeLoader');
     --from: v-bind('constCSSWrapper.transformFrom');
     --to: v-bind('constCSSWrapper.transformTo');
-    --size: v-bind('constCSSWrapper.size');
+    --sizeCircles: v-bind('constCSSWrapper.sizeCircles');
     --time: v-bind('constCSSWrapper.time');
     --count: v-bind('constCSSWrapper.count');
     --turns: v-bind('constCSSWrapper.turns');
@@ -147,8 +153,8 @@ main {
     }
     .circle {
       position: absolute;
-      top: calc(50% - var(--size) / 2);
-      left: calc(50% - var(--size) / 2);
+      top: calc(50% - var(--sizeCircles) / 2);
+      left: calc(50% - var(--sizeCircles) / 2);
       --delay: calc(var(--time) / var(--count) * -1 * var(--i));
       rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
       animation: circle var(--time) var(--delay) ease-in-out infinite;
@@ -156,12 +162,26 @@ main {
     .circle::before {
       content: '';
       display: block;
-      width: var(--size);
+      width: var(--sizeCircles);
       aspect-ratio: 1/1;
       border-radius: 50%;
       transform-origin: center center;
       animation: circleSize var(--time) var(--delay) ease-in-out infinite;
       background-color: hsl(calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%);
+    }
+    .inner-circle {
+      width: v-bind('constCSSWrapper.sizeInnerCircles');
+      height: v-bind('constCSSWrapper.sizeInnerCircles');
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      &:hover {
+        border: 1px solid #ff0000;
+      }
     }
   }
   .button {
