@@ -74,6 +74,74 @@ function getSettingsToLocalStorage(): constCssType[] {
 //   }
 // }
 
+function saveSettingToLocalStorage() {}
+
+function copySetting() {
+  console.log('copySetting', constCss.value)
+  let htmlText = `<div class="loader">`
+  for (let i = 0; i < constCss.value.numberOfCircles; i++) {
+    htmlText += `<div class="circle" style="--i: ${i}"></div>`
+  }
+  htmlText += `</div>`
+  let cssText = `
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: var(--sizeLoader);
+    height: var(--sizeLoader);
+    border-radius: 50%;
+
+    --sizeLoader: ${constCSSWrapper.value.sizeLoader};
+    --from:${constCSSWrapper.value.transformFrom};
+    --to: ${constCSSWrapper.value.transformTo};
+    --sizeCircles:${constCSSWrapper.value.sizeCircles};
+    --time: ${constCSSWrapper.value.time};
+    --count: ${constCSSWrapper.value.count};
+    --turns: ${constCSSWrapper.value.turns};
+  }
+  .circle {
+    position: absolute;
+    top: calc(50% - var(--sizeCircles) / 2);
+    left: calc(50% - var(--sizeCircles) / 2);
+    --delay: calc(var(--time) / var(--count) * -1 * var(--i));
+    rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
+    animation: circle var(--time) var(--delay) ease-in-out infinite;
+  }
+  .circle::before {
+    content: '';
+    display: block;
+    width: var(--sizeCircles);
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    transform-origin: center center;
+    animation: circleSize var(--time) var(--delay) ease-in-out infinite;
+    background-color: hsl(calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%);
+  }
+  @keyframes circle {
+    from {
+      transform: translate(0, var(--from));
+    }
+    to {
+      transform: translate(0, var(--to));
+    }
+  }
+  @keyframes circleSize {
+    0%,
+    100% {
+      transform: scale(0);
+    }
+    25%,
+    50% {
+      transform: scale(1);
+    }
+  }
+  `
+  navigator.clipboard.writeText(`${htmlText}\n${cssText}`)
+}
+
 onMounted(() => {
   if (!isMobile.value) {
     isTransparent.value = false
@@ -113,11 +181,14 @@ onMounted(() => {
         :examples="examples"
         @update-transparent="isTransparent = !isTransparent"
         @change-example="changeLoader"
+        @copy-setting="copySetting"
         @save-setting="saveSettingToLocalStorage"
       />
     </Drawer>
   </main>
 </template>
+<!--TODO: поставить претиер и еслинт-->
+<!--https://vueschool.io/articles/vuejs-tutorials/eslint-and-prettier-with-vite-and-vue-js-3/-->
 
 <!--https://codepen.io/miocene/pen/WNLQKEJ-->
 <style lang="scss">

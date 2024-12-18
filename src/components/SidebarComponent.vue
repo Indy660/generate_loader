@@ -18,7 +18,7 @@ const constCss = defineModel<constCssType>('constCss')
 const isTransparent = defineModel<boolean>('isTransparent')
 
 const prop = defineProps({ examples: Object })
-const emit = defineEmits(['change-example', 'save-setting'])
+const emit = defineEmits(['change-example', 'save-setting', 'copy-setting'])
 
 enum TAB_NAMES {
   EXAMPLES = 'Примеры',
@@ -34,6 +34,10 @@ const currentTab = ref(TAB_NAMES.EXAMPLES)
 
 function saveSetting() {
   emit('save-setting')
+}
+
+function copySetting() {
+  emit('copy-setting')
 }
 </script>
 
@@ -53,9 +57,9 @@ function saveSetting() {
         </Tab>
       </TabList>
     </Tabs>
-    <div v-if="isMobile" class="flex items-center gap-2 field">
+    <div v-if="isMobile" class="transparent">
       <Checkbox v-model="isTransparent" binary />
-      <label for="opacity">Прозрачность</label>
+      <label>Прозрачность</label>
     </div>
     <template v-if="currentTab === TAB_NAMES.EXAMPLES">
       <SettingExamples :examples="prop.examples" @change-example="emit('change-example', $event)" />
@@ -66,7 +70,8 @@ function saveSetting() {
     <!--    TODO: сохранить в конечный вид-->
     <Card class="save">
       <template #content>
-        <Button label="Сохранить" severity="success" variant="outlined" @click="saveSetting" />
+        <!--        <Button label="Сохранить" severity="success" variant="outlined" @click="saveSetting" />-->
+        <Button label="Скопировать" severity="info" variant="outlined" @click="copySetting" />
       </template>
     </Card>
   </div>
@@ -80,6 +85,12 @@ function saveSetting() {
       i {
         margin-right: 8px;
       }
+    }
+  }
+  .transparent {
+    padding: 20px;
+    label {
+      margin-left: 8px;
     }
   }
 }

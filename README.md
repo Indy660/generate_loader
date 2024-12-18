@@ -1,6 +1,11 @@
-## [🎥 Original idea](https://www.youtube.com/watch?v=ORxJ-lu89e8) 
+## [Original idea 🎥](https://www.youtube.com/watch?v=ORxJ-lu89e8) 
 
-## [Github page](https://indy660.github.io/generate_loader/)
+## [Github page + playground](https://indy660.github.io/generate_loader/)
+
+### [Example in codepen](https://codepen.io/indy660/pen/gbYmLVp)
+
+<img src="./src/assets/gif_examples/0.gif" alt="Preview image" height="400"/>
+
 
 ---
 
