@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { defineEmits, defineModel } from 'vue'
+import { defineEmits, defineModel, ref } from 'vue'
 import Card from 'primevue/card'
 import InputNumber from 'primevue/inputnumber'
 import Checkbox from 'primevue/checkbox'
 import Button from 'primevue/button'
+import Tabs from 'primevue/tabs'
+import Tab from 'primevue/tab'
+import TabList from 'primevue/tablist'
 import { useAdaptive } from '@/composable/useAdaptive'
 import type { constCssType } from '@/types'
 
@@ -12,6 +15,19 @@ const { isMobile } = useAdaptive()
 const model = defineModel<constCssType>()
 const prop = defineProps({ isTransparent: Boolean, examples: Object })
 const emit = defineEmits(['update:model', 'update-transparent', 'change-example', 'save-setting'])
+
+enum TAB_NAMES {
+  EXAMPLES = 'Примеры',
+  SETTINGS = 'Настройка'
+}
+
+const TABS = [
+  { label: TAB_NAMES.EXAMPLES, icon: 'pi pi-spinner-dotted' },
+  { label: TAB_NAMES.SETTINGS, icon: 'pi pi-cog' }
+]
+
+const currentTab = ref(TAB_NAMES.EXAMPLES)
+
 function getImageUrl(id: number) {
   // TODO: как сделать через @, через статичный computed (с айди внутри) работает
   return new URL(`../assets/gif_examples/${id}.gif`, import.meta.url).href
@@ -24,8 +40,22 @@ function saveSetting() {
 
 <template>
   <div class="form">
+    <Tabs class="tabs">
+      <TabList>
+        <Tab
+          v-for="tab in TABS"
+          :key="tab.label"
+          @click="currentTab = tab.label"
+          :value="tab.label"
+          class="tab"
+        >
+          <i :class="tab.icon" />
+          <span>{{ tab.label }}</span>
+        </Tab>
+      </TabList>
+    </Tabs>
     <!--    TODO: плейсхолдеры-->
-    <Card class="placeholders">
+    <Card v-if="currentTab === TAB_NAMES.EXAMPLES" class="placeholders">
       <template #title>Примеры:</template>
       <template #content>
         <div class="examples">
@@ -40,7 +70,7 @@ function saveSetting() {
       </template>
     </Card>
     <!--    TODO: настройки-->
-    <Card class="settings">
+    <Card v-if="currentTab === TAB_NAMES.SETTINGS" class="settings">
       <template #title>Настроить текущий лоадер:</template>
       <template #content>
         <div v-if="isMobile" class="flex items-center gap-2 field">
@@ -201,6 +231,13 @@ function saveSetting() {
 <style scoped lang="scss">
 .form {
   height: 100%;
+  .tabs {
+    .tab {
+      i {
+        margin-right: 8px;
+      }
+    }
+  }
   .examples {
     display: flex;
     flex-wrap: wrap;
@@ -214,9 +251,10 @@ function saveSetting() {
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      //&:hover {
-      //  background-color: rgba(0, 0, 0, 0.1);
-      //}
+      scale: 0.95;
+      &:hover {
+        scale: 1;
+      }
     }
   }
   .placeholders {
