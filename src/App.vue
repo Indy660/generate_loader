@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
-import FormSettings from '@/components/FormSettings.vue'
+import SidebarComponent from '@/components/SidebarComponent.vue'
 import { examples } from '@/examples'
 import { useAdaptive } from '@/composable/useAdaptive'
 import type { constCssType } from '@/types'
@@ -107,9 +107,9 @@ onMounted(() => {
       :style="{ ...isTransparentStyle }"
       :position="isMobile ? 'bottom' : 'right'"
     >
-      <FormSettings
-        v-model.constCss="constCss"
-        :is-transparent="isTransparent"
+      <SidebarComponent
+        v-model:const-css="constCss"
+        v-model:is-transparent="isTransparent"
         :examples="examples"
         @update-transparent="isTransparent = !isTransparent"
         @change-example="changeLoader"
