@@ -1,4 +1,5 @@
 import PrimeVue from 'primevue/config'
+import ToastService from 'primevue/toastservice'
 import Aura from '@primevue/themes/aura'
 import 'primeicons/primeicons.css'
 
@@ -12,4 +13,5 @@ createApp(App)
       preset: Aura
     }
   })
+  .use(ToastService)
   .mount('#app')

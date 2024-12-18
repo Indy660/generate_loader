@@ -3,11 +3,14 @@ import { ref, computed, onMounted } from 'vue'
 import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import SidebarComponent from '@/components/SidebarComponent.vue'
+import Toast from 'primevue/toast'
 import { examples } from '@/examples'
 import { useAdaptive } from '@/composable/useAdaptive'
+import { useToast } from 'primevue/usetoast'
 import type { constCssType } from '@/types'
 
 const { isMobile } = useAdaptive()
+const toast = useToast()
 
 const isShowSidebar = ref(false)
 const currentPlaceholder = ref(4)
@@ -77,7 +80,6 @@ function getSettingsToLocalStorage(): constCssType[] {
 function saveSettingToLocalStorage() {}
 
 function copySetting() {
-  console.log('copySetting', constCss.value)
   let htmlText = `<div class="loader">`
   for (let i = 0; i < constCss.value.numberOfCircles; i++) {
     htmlText += `<div class="circle" style="--i: ${i}"></div>`
@@ -140,6 +142,7 @@ function copySetting() {
   }
   `
   navigator.clipboard.writeText(`${htmlText}\n${cssText}`)
+  toast.add({ severity: 'info', summary: 'Информация', detail: 'Скопировано', life: 3000 })
 }
 
 onMounted(() => {
@@ -151,16 +154,15 @@ onMounted(() => {
 
 <template>
   <main>
+    <Toast />
     <div class="loader">
       <div class="inner-circle"></div>
-      <!--      <div class="rainbow">-->
       <div
         v-for="index in constCss.numberOfCircles"
         :key="index"
         class="circle"
         :style="{ '--i': index }"
       />
-      <!--      </div>-->
     </div>
     <Button
       @click="isShowSidebar = !isShowSidebar"
