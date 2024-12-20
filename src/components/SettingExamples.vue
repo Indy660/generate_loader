@@ -4,11 +4,11 @@
     <template #content>
       <div class="examples">
         <img
-          v-for="example in prop.examples"
+          v-for="(example, index) in prop.examples"
           class="example"
-          @click="emit('change-example', example.id)"
-          :src="getImageUrl(example.id)"
-          :key="example.id"
+          @click="emit('change-example', index)"
+          :src="getImageUrl(index)"
+          :key="index + example.numberOfCircles"
         />
       </div>
     </template>
@@ -26,9 +26,25 @@ interface Props {
 const prop = defineProps<Props>()
 const emit = defineEmits(['change-example'])
 
-function getImageUrl(id: number) {
-  // TODO: как сделать через @, через статичный computed (с айди внутри) работает
-  return new URL(`../assets/gif_examples/${id}.gif`, import.meta.url).href
+
+function getImageUrl(index: number) {
+  // TODO: если файла не существует сделать проверку
+  console.log(index)
+  // let file = ''
+  // try {
+  //   file = new URL(`../assets/gif_examples/${index}.gif`, import.meta.url).href
+  //   console.log('try')
+  // }
+  // catch (e) {
+  //   file = new URL(`../assets/gif_examples/2.gif`, import.meta.url).href
+  //   console.log('catch')
+  // }
+  // return file
+  // if (example?.id) {
+  //   // TODO: как сделать через @, через статичный computed (с айди внутри) работает
+    return new URL(`../assets/gif_examples/${index}.gif`, import.meta.url).href
+  // }
+  // return ''
 }
 </script>
 

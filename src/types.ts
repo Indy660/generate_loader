@@ -9,4 +9,5 @@ export type constCssType = {
   turns: number
 }
 
-export type constCssPropsType = constCssType & { isTransparent: boolean }
+
+export type constCssPropsType = constCssType[] & { isTransparent: boolean }
