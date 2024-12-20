@@ -7,7 +7,7 @@ export const examples = [
       sizeLoader: 400,
       transformFrom: 30,
       transformTo: 100,
-      size: 32,
+      sizeCircles: 5,
       time: 7
     },
     id: 0
@@ -20,7 +20,7 @@ export const examples = [
       sizeLoader: 500,
       transformFrom: 9,
       transformTo: 100,
-      size: 20,
+      sizeCircles: 6,
       time: 3
     },
     id: 1
@@ -33,7 +33,7 @@ export const examples = [
       sizeLoader: 300,
       transformFrom: 0,
       transformTo: 100,
-      size: 20,
+      sizeCircles: 7,
       time: 4
     },
     id: 2
@@ -42,7 +42,7 @@ export const examples = [
     constCss: {
       count: 41,
       numberOfCircles: 56,
-      size: 16,
+      sizeCircles: 5,
       sizeLoader: 500,
       time: 3.5,
       transformFrom: 99,
@@ -59,7 +59,7 @@ export const examples = [
       sizeLoader: 500,
       transformFrom: 9,
       transformTo: 100,
-      size: 20,
+      sizeCircles: 5,
       time: 4
     },
     id: 4

@@ -21,8 +21,8 @@ const prop = defineProps({ examples: Object })
 const emit = defineEmits(['change-example', 'save-setting', 'copy-setting'])
 
 enum TAB_NAMES {
-  EXAMPLES = 'Примеры',
-  SETTINGS = 'Настройка'
+  EXAMPLES = 'Examples',
+  SETTINGS = 'Setting'
 }
 
 const TABS = [
@@ -71,7 +71,7 @@ function copySetting() {
     <Card class="save">
       <template #content>
         <!--        <Button label="Сохранить" severity="success" variant="outlined" @click="saveSetting" />-->
-        <Button label="Скопировать" severity="info" variant="outlined" @click="copySetting" />
+        <Button label="Copy to clipboard" severity="info" variant="outlined" @click="copySetting" />
       </template>
     </Card>
   </div>

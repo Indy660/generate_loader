@@ -1,8 +1,8 @@
 <template>
   <Card class="settings">
-    <template #title>Настроить текущий лоадер:</template>
+    <template #title>Set settings</template>
     <template #content>
-      <span class="label">Количество кругов</span>
+      <span class="label">Quantity of circles (--numberOfCircles)</span>
       <InputNumber
         class="field"
         v-model="constCss.numberOfCircles"
@@ -20,7 +20,7 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Количество кругов вокруг (--count)</span>
+      <span class="label">Quantity of circles around (--count)</span>
       <InputNumber
         class="field"
         v-model="constCss.count"
@@ -38,7 +38,7 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Сколько кругов "в одной" линии(--turns)</span>
+      <span class="label"> Turns (--turns)</span>
       <InputNumber
         class="field"
         v-model="constCss.turns"
@@ -56,7 +56,7 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Время анимации в секундах (--time)</span>
+      <span class="label"> Time of animation (--time)</span>
       <InputNumber
         class="field"
         v-model="constCss.time"
@@ -74,7 +74,7 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Размер лоадера в пикселя (--sizeLoader)</span>
+      <span class="label"> Size loader (--sizeLoader)</span>
       <InputNumber
         class="field"
         v-model="constCss.sizeLoader"
@@ -91,7 +91,7 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Внешний размер лоадера в процентах (--transformFrom)</span>
+      <span class="label"> Outer border circle in percent (--transformFrom)</span>
       <InputNumber
         class="field"
         v-model="constCss.transformFrom"
@@ -108,7 +108,7 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Внутренний отступ лоадера в процентах (--transformTo)</span>
+      <span class="label"> Inside border circle in percent (--transformTo)</span>
       <InputNumber
         class="field"
         v-model="constCss.transformTo"
@@ -125,10 +125,10 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label">Размер кругов в пикселях (--size)</span>
+      <span class="label"> Size circles (--sizeCircles)</span>
       <InputNumber
         class="field"
-        v-model="constCss.size"
+        v-model="constCss.sizeCircles"
         fluid
         :step="1"
         input-id="horizontal-buttons"

@@ -16,10 +16,10 @@ const isShowSidebar = ref(false)
 const currentPlaceholder = ref(4)
 let constCss = ref<constCssType>(examples[currentPlaceholder.value].constCss)
 const transformFromInPercent = computed(() => {
-  return (constCss.value.sizeLoader / 2 / constCss.value.size) * constCss.value.transformFrom
+  return (100 / 2 / constCss.value.sizeCircles) * constCss.value.transformFrom
 })
 const transformToInPercent = computed(() => {
-  return (constCss.value.sizeLoader / 2 / constCss.value.size) * constCss.value.transformTo
+  return (100 / 2 / constCss.value.sizeCircles) * constCss.value.transformTo
 })
 const sizeInnerCircles = computed(() => {
   return (constCss.value.transformFrom / constCss.value.transformTo) * constCss.value.sizeLoader
@@ -29,7 +29,7 @@ const constCSSWrapper = computed(() => {
     sizeLoader: constCss.value.sizeLoader + 'px',
     transformFrom: transformFromInPercent.value + '%',
     transformTo: transformToInPercent.value + '%',
-    sizeCircles: constCss.value.size + 'px',
+    sizeCircles: constCss.value.sizeCircles + '%',
     sizeInnerCircles: sizeInnerCircles.value + 'px',
     time: constCss.value.time + 's',
     count: constCss.value.count,
@@ -85,18 +85,17 @@ function copySetting() {
     htmlText += `<div class="circle" style="--i: ${i}"></div>`
   }
   htmlText += `</div>`
-  let cssText = `
+  const cssText = `
   .loader {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: var(--sizeLoader);
-    height: var(--sizeLoader);
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
 
-    --sizeLoader: ${constCSSWrapper.value.sizeLoader};
     --from:${constCSSWrapper.value.transformFrom};
     --to: ${constCSSWrapper.value.transformTo};
     --sizeCircles:${constCSSWrapper.value.sizeCircles};
@@ -111,11 +110,11 @@ function copySetting() {
     --delay: calc(var(--time) / var(--count) * -1 * var(--i));
     rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
     animation: circle var(--time) var(--delay) ease-in-out infinite;
+    width: var(--sizeCircles);
   }
   .circle::before {
     content: '';
     display: block;
-    width: var(--sizeCircles);
     aspect-ratio: 1/1;
     border-radius: 50%;
     transform-origin: center center;
@@ -142,7 +141,7 @@ function copySetting() {
   }
   `
   navigator.clipboard.writeText(`${htmlText}\n${cssText}`)
-  toast.add({ severity: 'info', summary: 'Информация', detail: 'Скопировано', life: 3000 })
+  toast.add({ severity: 'info', summary: 'Saved', detail: 'Saved in memory', life: 3000 })
 }
 
 onMounted(() => {
@@ -156,7 +155,7 @@ onMounted(() => {
   <main>
     <Toast />
     <div class="loader">
-      <div class="inner-circle"></div>
+      <div class="inner-circle"/>
       <div
         v-for="index in constCss.numberOfCircles"
         :key="index"
@@ -167,12 +166,12 @@ onMounted(() => {
     <Button
       @click="isShowSidebar = !isShowSidebar"
       class="button"
-      label="Настройки"
+      label="Settings"
       icon="pi pi-palette"
     />
     <Drawer
       v-model:visible="isShowSidebar"
-      header="Настройки"
+      header="Settings"
       class="drawer"
       :style="{ ...isTransparentStyle }"
       :position="isMobile ? 'bottom' : 'right'"
@@ -231,17 +230,18 @@ main {
       --delay: calc(var(--time) / var(--count) * -1 * var(--i));
       rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
       animation: circle var(--time) var(--delay) ease-in-out infinite;
+      width: var(--sizeCircles);
     }
     .circle::before {
       content: '';
       display: block;
-      width: var(--sizeCircles);
       aspect-ratio: 1/1;
       border-radius: 50%;
       transform-origin: center center;
       animation: circleSize var(--time) var(--delay) ease-in-out infinite;
       background-color: hsl(calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%);
     }
+    // just for show inner circle
     .inner-circle {
       width: v-bind('constCSSWrapper.sizeInnerCircles');
       height: v-bind('constCSSWrapper.sizeInnerCircles');
@@ -288,4 +288,84 @@ main {
     transform: scale(1);
   }
 }
+
+///* Here parent as your relative block */
+//.parent {
+//  display: flex;
+//  justify-content: center;
+//  position: relative;
+//  width: 500px;
+//  height: 500px;
+//  border: 1px solid black
+//}
+//.loader {
+//  position: absolute;
+//  top: 50%;
+//  left: 50%;
+//  transform: translate(-50%, -50%);
+//
+//  width: 100%;
+//  height: 100%;
+//  border-radius: 50%;
+//
+//  /*   --from: 100%;
+//  --to: 500%; */
+//  --sizeCircles: 5%;
+//  --time: 4s;
+//  --count: 200;
+//  --turns: 10;
+//}
+//.circle {
+//  position: absolute;
+//  top: calc(50% - var(--sizeCircles) / 2);
+//  left: calc(50% - var(--sizeCircles) / 2);
+//  --delay: calc(var(--time) / var(--count) * -1 * var(--i));
+//  rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
+//  animation: circle var(--time) var(--delay) ease-in-out infinite;
+//  width: var(--sizeCircles);
+//}
+//.circle::before {
+//  content: "";
+//  display: block;
+//
+//  aspect-ratio: 1/1;
+//  border-radius: 50%;
+//  transform-origin: center center;
+//  animation: circleSize var(--time) var(--delay) ease-in-out infinite;
+//  background-color: hsl(
+//      calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%
+//  );
+//}
+//@keyframes circle {
+//  from {
+//    /*     transform: translate(0, var(--from)); */
+//    transform: translate(0, 200%);
+//  }
+//  to {
+//    /*     transform: translate(0, var(--to)); */
+//    transform: translate(0, 1000%);
+//  }
+//}
+//@keyframes circleSize {
+//  0%,
+//  100% {
+//    transform: scale(0);
+//  }
+//  25%,
+//  50% {
+//    transform: scale(1);
+//  }
+//}
+
+//position: absolute;
+//top: 50%;
+//       left: 50%;
+//               transform: translate(-50%, -50%);
+//width: 100%;
+//          height: 100%;
+//                     border-radius: 50%;
+//                                      --sizeCircles: 10%;
+//                                                       --time: 4s;
+//--count: 75;
+//--turns: 10;
 </style>
