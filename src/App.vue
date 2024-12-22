@@ -155,7 +155,7 @@ onMounted(() => {
   <main>
     <Toast />
     <div class="loader">
-      <div class="inner-circle"/>
+      <div class="inner-circle" />
       <div
         v-for="index in constCss.numberOfCircles"
         :key="index"
@@ -163,12 +163,9 @@ onMounted(() => {
         :style="{ '--i': index }"
       />
     </div>
-    <Button
-      @click="isShowSidebar = !isShowSidebar"
-      class="button"
-      label="Settings"
-      icon="pi pi-palette"
-    />
+    <div class="button-wrapper">
+      <Button @click="isShowSidebar = !isShowSidebar" label="Settings" icon="pi pi-palette" />
+    </div>
     <Drawer
       v-model:visible="isShowSidebar"
       header="Settings"
@@ -257,14 +254,20 @@ main {
       }
     }
   }
-  .button {
+  .button-wrapper {
+    position: absolute;
+    top: 0;
+    left: 4vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     @media screen and (max-width: 768px) {
-      position: absolute;
+      flex-direction: row;
+      width: 100%;
+      height: fit-content;
       top: 5vh;
-      margin-inline: auto;
       left: 0;
-      right: 0;
-      width: fit-content;
     }
   }
 }
