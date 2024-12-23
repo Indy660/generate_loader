@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {defineEmits, defineModel, ref} from 'vue'
+import { defineEmits, defineModel, ref } from 'vue'
 import SettingForm from '@/components/SettingForm.vue'
 import SettingExamples from '@/components/SettingExamples.vue'
 import Card from 'primevue/card'
@@ -9,8 +9,8 @@ import Tab from 'primevue/tab'
 import TabList from 'primevue/tablist'
 import Checkbox from 'primevue/checkbox'
 
-import type {constCssType} from '@/types'
-import {useAdaptive} from '@/composable/useAdaptive'
+import type { constCssType } from '@/types'
+import { useAdaptive } from '@/composable/useAdaptive'
 
 const constCss = defineModel<constCssType>('constCss')
 const isTransparent = defineModel<boolean>('isTransparent')
@@ -22,8 +22,7 @@ interface Props {
 const prop = defineProps<Props>()
 const emit = defineEmits(['change-example', 'save-setting', 'copy-setting'])
 
-
-const {isMobile} = useAdaptive()
+const { isMobile } = useAdaptive()
 
 enum TAB_NAMES {
   EXAMPLES = 'Examples',
@@ -31,8 +30,8 @@ enum TAB_NAMES {
 }
 
 const TABS = [
-  {label: TAB_NAMES.EXAMPLES, icon: 'pi pi-spinner-dotted'},
-  {label: TAB_NAMES.SETTINGS, icon: 'pi pi-cog'}
+  { label: TAB_NAMES.EXAMPLES, icon: 'pi pi-spinner-dotted' },
+  { label: TAB_NAMES.SETTINGS, icon: 'pi pi-cog' }
 ]
 
 const currentTab = ref(TAB_NAMES.EXAMPLES)
@@ -57,26 +56,26 @@ function copySetting() {
           :value="tab.label"
           class="tab"
         >
-          <i :class="tab.icon"/>
+          <i :class="tab.icon" />
           <span>{{ tab.label }}</span>
         </Tab>
       </TabList>
     </Tabs>
     <div v-if="isMobile" class="transparent">
-      <Checkbox v-model="isTransparent" binary/>
+      <Checkbox v-model="isTransparent" binary />
       <label>Прозрачность</label>
     </div>
     <template v-if="currentTab === TAB_NAMES.EXAMPLES">
-      <SettingExamples :examples="prop.examples" @change-example="emit('change-example', $event)"/>
+      <SettingExamples :examples="prop.examples" @change-example="emit('change-example', $event)" />
     </template>
     <template v-if="currentTab === TAB_NAMES.SETTINGS">
-      <SettingForm v-model:const-css="constCss"/>
+      <SettingForm v-model:const-css="constCss" />
     </template>
     <!--    TODO: сохранить в конечный вид-->
     <Card class="save">
       <template #content>
         <!--        <Button label="Сохранить" severity="success" variant="outlined" @click="saveSetting" />-->
-        <Button label="Copy to clipboard" severity="info" variant="outlined" @click="copySetting"/>
+        <Button label="Copy to clipboard" severity="info" variant="outlined" @click="copySetting" />
       </template>
     </Card>
   </div>

@@ -27,7 +27,7 @@ const toast = useToast()
 
 const isShowSidebar = ref(false)
 const currentPlaceholder = ref(4)
-let constCss = ref<constCssType>(examples[currentPlaceholder.value])
+const constCss = ref<constCssType>(examples[currentPlaceholder.value])
 const transformFromInPercent = computed(() => {
   return (100 / 2 / constCss.value.sizeCircles) * constCss.value.transformFrom
 })
