@@ -270,7 +270,7 @@ main {
   .button-wrapper {
     position: absolute;
     top: 0;
-    left: 4vh;
+    left: 3vw;
     height: 100%;
     display: flex;
     flex-direction: column;
