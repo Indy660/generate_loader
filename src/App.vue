@@ -4,8 +4,8 @@ import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import SidebarComponent from '@/components/SidebarComponent.vue'
 import Toast from 'primevue/toast'
-import { examples } from '@/examples'
-// import { examples as staticExamples } from '@/examples'
+// import { examples } from '@/examples'
+import { examples as staticExamples } from '@/examples'
 import { useAdaptive } from '@/composable/useAdaptive'
 import { useToast } from 'primevue/usetoast'
 import type { constCssType } from '@/types'
@@ -13,21 +13,28 @@ import type { constCssType } from '@/types'
 const { isMobile } = useAdaptive()
 const toast = useToast()
 
-// const examplesFromStorage = ref([{
-//     numberOfCircles: 3,
-//     sizeLoader: 100,
-//     transformFrom: 50,
-//     transformTo: 50,
-//     sizeCircles: 100,
-//     time: 2,
-//     count: 1,
-//     turns: 1
-// }])
+const examplesFromStorage = ref([
+  // {
+  //   numberOfCircles: 3,
+  //   sizeLoader: 100,
+  //   transformFrom: 50,
+  //   transformTo: 50,
+  //   sizeCircles: 100,
+  //   time: 2,
+  //   count: 1,
+  //   turns: 1
+  // }
+])
 // const examples = [...staticExamples, ...examplesFromStorage.value]
 
+// TODO: доделать мерж из локалстоража
+const examples = computed(() => {
+  return [...staticExamples, ...examplesFromStorage.value]
+})
+
 const isShowSidebar = ref(false)
-const currentPlaceholder = ref(4)
-const constCss = ref<constCssType>(examples[currentPlaceholder.value])
+const currentPlaceholder = ref(0)
+const constCss = ref<constCssType>(examples.value[currentPlaceholder.value])
 const transformFromInPercent = computed(() => {
   return (100 / 2 / constCss.value.sizeCircles) * constCss.value.transformFrom
 })
@@ -57,7 +64,7 @@ const isTransparentStyle = computed(() => {
 
 function changeLoader(id: number) {
   currentPlaceholder.value = id
-  constCss.value = examples[id]
+  constCss.value = examples.value[id]
 }
 
 // TODO: доделать
