@@ -1,4 +1,4 @@
-import type {constCssType} from "@/types";
+import type { constCssType } from '@/types'
 
 export const examples: constCssType[] = [
   {
@@ -9,7 +9,8 @@ export const examples: constCssType[] = [
     transformFrom: 30,
     transformTo: 100,
     sizeCircles: 5,
-    time: 7
+    time: 7,
+    isCustom: false
   },
   {
     numberOfCircles: 50,
@@ -19,7 +20,8 @@ export const examples: constCssType[] = [
     transformFrom: 9,
     transformTo: 100,
     sizeCircles: 6,
-    time: 3
+    time: 3,
+    isCustom: false
   },
   {
     numberOfCircles: 25,
@@ -29,7 +31,8 @@ export const examples: constCssType[] = [
     transformFrom: 0,
     transformTo: 100,
     sizeCircles: 7,
-    time: 4
+    time: 4,
+    isCustom: false
   },
   {
     count: 41,
@@ -39,7 +42,8 @@ export const examples: constCssType[] = [
     time: 3.5,
     transformFrom: 99,
     transformTo: -80,
-    turns: 9
+    turns: 9,
+    isCustom: false
   },
   {
     numberOfCircles: 100,
@@ -49,6 +53,7 @@ export const examples: constCssType[] = [
     transformFrom: 9,
     transformTo: 100,
     sizeCircles: 5,
-    time: 4
-  },
+    time: 4,
+    isCustom: false
+  }
 ]

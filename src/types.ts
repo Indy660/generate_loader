@@ -7,7 +7,7 @@ export type constCssType = {
   time: number
   count: number
   turns: number
+  isCustom: boolean
 }
-
 
 export type constCssPropsType = constCssType[] & { isTransparent: boolean }

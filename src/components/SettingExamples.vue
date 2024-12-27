@@ -3,13 +3,18 @@
     <template #title>Примеры:</template>
     <template #content>
       <div class="examples">
-        <img
-          v-for="(example, index) in prop.examples"
+        <div
           class="example"
-          @click="emit('change-example', index)"
-          :src="getImageUrl(index)"
+          v-for="(example, index) in prop.examples"
           :key="index + example.numberOfCircles"
-        />
+        >
+          <img @click="emit('change-example', index)" :src="getImageUrl(index)" />
+          <div
+            v-if="example.isCustom"
+            class="button-delete"
+            @click="emit('delete-example', index)"
+          />
+        </div>
       </div>
     </template>
   </Card>
@@ -24,27 +29,15 @@ interface Props {
 }
 
 const prop = defineProps<Props>()
-const emit = defineEmits(['change-example'])
-
+const emit = defineEmits(['change-example', 'delete-example'])
 
 function getImageUrl(index: number) {
-  // TODO: если файла не существует сделать проверку
-  console.log(index)
-  // let file = ''
-  // try {
-  //   file = new URL(`../assets/gif_examples/${index}.gif`, import.meta.url).href
-  //   console.log('try')
-  // }
-  // catch (e) {
-  //   file = new URL(`../assets/gif_examples/2.gif`, import.meta.url).href
-  //   console.log('catch')
-  // }
-  // return file
-  // if (example?.id) {
-  //   // TODO: как сделать через @, через статичный computed (с айди внутри) работает
-    return new URL(`../assets/gif_examples/${index}.gif`, import.meta.url).href
-  // }
-  // return ''
+  // TODO: всё ещё криво решено, моно ли улучшить
+  const image = new URL(`../assets/gif_examples/${index}.gif`, import.meta.url).href
+  // console.log(image)
+  return image.includes('undefined')
+    ? new URL(`../assets/default-loader.png`, import.meta.url).href
+    : image
 }
 </script>
 
@@ -59,15 +52,27 @@ function getImageUrl(index: number) {
   gap: 12px;
   width: 100%;
   .example {
-    width: 45%;
+    position: relative;
+    width: 50px;
+    //height: 100%;
     aspect-ratio: 1 / 1;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     scale: 0.95;
+    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
     &:hover {
       scale: 1;
+    }
+    .button-delete {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      cursor: pointer;
     }
   }
 }

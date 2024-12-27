@@ -14,16 +14,17 @@ const { isMobile } = useAdaptive()
 const toast = useToast()
 
 const examplesFromStorage = ref([
-  // {
-  //   numberOfCircles: 3,
-  //   sizeLoader: 100,
-  //   transformFrom: 50,
-  //   transformTo: 50,
-  //   sizeCircles: 100,
-  //   time: 2,
-  //   count: 1,
-  //   turns: 1
-  // }
+  {
+    numberOfCircles: 3,
+    sizeLoader: 300,
+    transformFrom: 50,
+    transformTo: 50,
+    sizeCircles: 10,
+    time: 2,
+    count: 13,
+    turns: 10,
+    isCustom: true
+  }
 ])
 // const examples = [...staticExamples, ...examplesFromStorage.value]
 
