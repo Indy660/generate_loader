@@ -50,9 +50,9 @@ const isTransparentStyle = computed(() => {
   return { opacity: isTransparent.value ? 0.8 : 1 }
 })
 
-function changeLoader(id: number) {
-  currentPlaceholder.value = id
-  constCss.value = { ...examples.value[id] }
+function changeLoader(index: number) {
+  currentPlaceholder.value = index
+  constCss.value = { ...examples.value[index] }
 }
 
 const KEY_STORAGE = 'CUSTOM_SETTINGS'
@@ -60,12 +60,29 @@ function getAndPutSettingsToLocalStorage(): void {
   const localStorageSettings = localStorage.getItem(KEY_STORAGE)
   examplesFromStorage.value = localStorageSettings?.length ? JSON.parse(localStorageSettings) : []
 }
-
 function saveSettingToLocalStorage() {
   const currentCss = constCss.value
   currentCss.isCustom = true
   examplesFromStorage.value.push(currentCss)
   localStorage.setItem(KEY_STORAGE, JSON.stringify(examplesFromStorage.value))
+  toast.add({
+    severity: 'success',
+    summary: 'Saved',
+    detail: 'Saved example in local storage',
+    life: 3000
+  })
+}
+function deleteExampleFromLocalStorage(index: number) {
+  const staticExamplesLength = staticExamples.length
+  examplesFromStorage.value.splice(index - staticExamplesLength, 1)
+  localStorage.setItem(KEY_STORAGE, JSON.stringify(examplesFromStorage.value))
+  changeLoader(0)
+  toast.add({
+    severity: 'error',
+    summary: 'Deleted',
+    detail: 'Deleted example from local storage',
+    life: 3000
+  })
 }
 
 function copySetting() {
@@ -171,6 +188,7 @@ onMounted(() => {
         @change-example="changeLoader"
         @copy-setting="copySetting"
         @save-setting="saveSettingToLocalStorage"
+        @delete-example="deleteExampleFromLocalStorage"
       />
     </Drawer>
   </main>

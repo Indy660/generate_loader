@@ -20,7 +20,7 @@ interface Props {
 }
 
 const prop = defineProps<Props>()
-const emit = defineEmits(['change-example', 'save-setting', 'copy-setting'])
+const emit = defineEmits(['change-example', 'save-setting', 'copy-setting', 'delete-example'])
 
 const { isMobile } = useAdaptive()
 
@@ -62,7 +62,11 @@ function copySetting() {
       <label>Прозрачность</label>
     </div>
     <template v-if="currentTab === TAB_NAMES.EXAMPLES">
-      <SettingExamples :examples="prop.examples" @change-example="emit('change-example', $event)" />
+      <SettingExamples
+        :examples="prop.examples"
+        @change-example="emit('change-example', $event)"
+        @delete-example="emit('delete-example', $event)"
+      />
     </template>
     <template v-if="currentTab === TAB_NAMES.SETTINGS">
       <SettingForm v-model:const-css="constCss" @save-setting="emit('save-setting')" />
