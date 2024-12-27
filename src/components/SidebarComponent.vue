@@ -36,10 +36,6 @@ const TABS = [
 
 const currentTab = ref(TAB_NAMES.EXAMPLES)
 
-function saveSetting() {
-  emit('save-setting')
-}
-
 function copySetting() {
   emit('copy-setting')
 }
@@ -69,7 +65,7 @@ function copySetting() {
       <SettingExamples :examples="prop.examples" @change-example="emit('change-example', $event)" />
     </template>
     <template v-if="currentTab === TAB_NAMES.SETTINGS">
-      <SettingForm v-model:const-css="constCss" />
+      <SettingForm v-model:const-css="constCss" @save-setting="emit('save-setting')" />
     </template>
     <!--    TODO: сохранить в конечный вид-->
     <Card class="save">

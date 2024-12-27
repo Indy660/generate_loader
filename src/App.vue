@@ -4,7 +4,6 @@ import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import SidebarComponent from '@/components/SidebarComponent.vue'
 import Toast from 'primevue/toast'
-// import { examples } from '@/examples'
 import { examples as staticExamples } from '@/examples'
 import { useAdaptive } from '@/composable/useAdaptive'
 import { useToast } from 'primevue/usetoast'
@@ -13,20 +12,7 @@ import type { constCssType } from '@/types'
 const { isMobile } = useAdaptive()
 const toast = useToast()
 
-const examplesFromStorage = ref([
-  {
-    numberOfCircles: 3,
-    sizeLoader: 300,
-    transformFrom: 50,
-    transformTo: 50,
-    sizeCircles: 10,
-    time: 2,
-    count: 13,
-    turns: 10,
-    isCustom: true
-  }
-])
-// const examples = [...staticExamples, ...examplesFromStorage.value]
+let examplesFromStorage = ref<constCssType[]>([])
 
 // TODO: доделать мерж из локалстоража
 const examples = computed(() => {
@@ -35,7 +21,8 @@ const examples = computed(() => {
 
 const isShowSidebar = ref(false)
 const currentPlaceholder = ref(0)
-const constCss = ref<constCssType>(examples.value[currentPlaceholder.value])
+const constCss = ref<constCssType>({ ...examples.value[currentPlaceholder.value] })
+
 const transformFromInPercent = computed(() => {
   return (100 / 2 / constCss.value.sizeCircles) * constCss.value.transformFrom
 })
@@ -65,40 +52,21 @@ const isTransparentStyle = computed(() => {
 
 function changeLoader(id: number) {
   currentPlaceholder.value = id
-  constCss.value = examples.value[id]
+  constCss.value = { ...examples.value[id] }
 }
 
-// TODO: доделать
-const KEY_STORAGE = 'customSettings'
-function getSettingsToLocalStorage(): constCssType[] {
+const KEY_STORAGE = 'CUSTOM_SETTINGS'
+function getAndPutSettingsToLocalStorage(): void {
   const localStorageSettings = localStorage.getItem(KEY_STORAGE)
-  return localStorageSettings?.length ? JSON.parse(localStorageSettings) : []
+  examplesFromStorage.value = localStorageSettings?.length ? JSON.parse(localStorageSettings) : []
 }
-//   if (localStorageObjects) {
-//     constCss = JSON.parse(localStorageObjects)
-//   }
-//
-//   localStorageObjects.push(object)
-//   localStorage.setItem(KEY_STORAGE, JSON.stringify(objects))
-// }
-// function deleteSettingFromLocalStorage(index: number): void {
-//   const localStorageObjects = localStorage.getItem(KEY_STORAGE)
-//
-//   if (localStorageObjects) {
-//     let objects = JSON.parse(localStorageObjects)
-//
-//     if (index >= 0 && index < objects.length) {
-//       objects.splice(index, 1)
-//       localStorage.setItem(KEY_STORAGE, JSON.stringify(objects))
-//     } else {
-//       console.error('Index out of bounds')
-//     }
-//   } else {
-//     console.warn('No objects found in localStorage')
-//   }
-// }
 
-function saveSettingToLocalStorage() {}
+function saveSettingToLocalStorage() {
+  const currentCss = constCss.value
+  currentCss.isCustom = true
+  examplesFromStorage.value.push(currentCss)
+  localStorage.setItem(KEY_STORAGE, JSON.stringify(examplesFromStorage.value))
+}
 
 function copySetting() {
   let htmlText = `<div class="loader">`
@@ -169,6 +137,7 @@ onMounted(() => {
   if (!isMobile.value) {
     isTransparent.value = false
   }
+  getAndPutSettingsToLocalStorage()
 })
 </script>
 

@@ -142,6 +142,12 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
+      <Button
+        label="Save setting"
+        severity="success"
+        variant="outlined"
+        @click="emit('save-setting')"
+      />
     </template>
   </Card>
 </template>
@@ -149,9 +155,11 @@
 <script setup lang="ts">
 import InputNumber from 'primevue/inputnumber'
 import Card from 'primevue/card'
+import Button from 'primevue/button'
 import type { constCssType } from '@/types'
 
 const constCss = defineModel<constCssType>('constCss')
+const emit = defineEmits(['save-setting'])
 </script>
 
 <style scoped lang="scss">
