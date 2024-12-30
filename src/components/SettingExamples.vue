@@ -1,6 +1,5 @@
 <template>
   <Card class="placeholders">
-    <!--    <template #title>Примеры:</template>-->
     <template #content>
       <div class="examples">
         <div
@@ -31,7 +30,7 @@ import Card from 'primevue/card'
 import type { constCssType } from '@/types'
 
 interface Props {
-  examples: constCssType
+  examples: constCssType[]
 }
 
 const prop = defineProps<Props>()
@@ -51,34 +50,25 @@ function getImageUrl(index: number) {
 .placeholders {
   margin-bottom: 12px;
 }
-//TODO: разобраться, почему грид криво налезает
 .examples {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  //grid-column-gap: 12px;
   gap: 12px;
-  //width: 100%;
-  //justify-items: stretch;
-  border: 1px solid black;
   .example {
     position: relative;
-    //width: 50px;
-    //height: 100%;
     aspect-ratio: 1 / 1;
-    //display: flex;
-    //justify-content: center;
-    //align-items: center;
     cursor: pointer;
     background-size: cover;
-    scale: 0.95;
+    scale: 1;
     box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
     &:hover {
-      scale: 1;
+      scale: 1.05;
     }
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
     .button-delete {
       position: absolute;

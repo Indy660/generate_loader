@@ -1,6 +1,6 @@
 import type { constCssType } from '@/types'
 
-export const examples: constCssType[] = [
+export const STATIC_EXAMPLES: constCssType[] = [
   {
     numberOfCircles: 100,
     count: 51,

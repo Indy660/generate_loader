@@ -4,7 +4,7 @@ import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
 import SidebarComponent from '@/components/SidebarComponent.vue'
 import Toast from 'primevue/toast'
-import { examples as staticExamples } from '@/examples'
+import { STATIC_EXAMPLES } from '@/static_examples'
 import { useAdaptive } from '@/composable/useAdaptive'
 import { useToast } from 'primevue/usetoast'
 import type { constCssType } from '@/types'
@@ -12,11 +12,11 @@ import type { constCssType } from '@/types'
 const { isMobile } = useAdaptive()
 const toast = useToast()
 
-let examplesFromStorage = ref<constCssType[]>([])
+const examplesFromStorage = ref<constCssType[]>([])
 
 // TODO: доделать мерж из локалстоража
 const examples = computed(() => {
-  return [...staticExamples, ...examplesFromStorage.value]
+  return [...STATIC_EXAMPLES, ...examplesFromStorage.value]
 })
 
 const isShowSidebar = ref(false)
@@ -73,7 +73,7 @@ function saveSettingToLocalStorage() {
   })
 }
 function deleteExampleFromLocalStorage(index: number) {
-  const staticExamplesLength = staticExamples.length
+  const staticExamplesLength = STATIC_EXAMPLES.length
   examplesFromStorage.value.splice(index - staticExamplesLength, 1)
   localStorage.setItem(KEY_STORAGE, JSON.stringify(examplesFromStorage.value))
   changeLoader(0)
@@ -299,84 +299,4 @@ main {
     transform: scale(1);
   }
 }
-
-///* Here parent as your relative block */
-//.parent {
-//  display: flex;
-//  justify-content: center;
-//  position: relative;
-//  width: 500px;
-//  height: 500px;
-//  border: 1px solid black
-//}
-//.loader {
-//  position: absolute;
-//  top: 50%;
-//  left: 50%;
-//  transform: translate(-50%, -50%);
-//
-//  width: 100%;
-//  height: 100%;
-//  border-radius: 50%;
-//
-//  /*   --from: 100%;
-//  --to: 500%; */
-//  --sizeCircles: 5%;
-//  --time: 4s;
-//  --count: 200;
-//  --turns: 10;
-//}
-//.circle {
-//  position: absolute;
-//  top: calc(50% - var(--sizeCircles) / 2);
-//  left: calc(50% - var(--sizeCircles) / 2);
-//  --delay: calc(var(--time) / var(--count) * -1 * var(--i));
-//  rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
-//  animation: circle var(--time) var(--delay) ease-in-out infinite;
-//  width: var(--sizeCircles);
-//}
-//.circle::before {
-//  content: "";
-//  display: block;
-//
-//  aspect-ratio: 1/1;
-//  border-radius: 50%;
-//  transform-origin: center center;
-//  animation: circleSize var(--time) var(--delay) ease-in-out infinite;
-//  background-color: hsl(
-//      calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%
-//  );
-//}
-//@keyframes circle {
-//  from {
-//    /*     transform: translate(0, var(--from)); */
-//    transform: translate(0, 200%);
-//  }
-//  to {
-//    /*     transform: translate(0, var(--to)); */
-//    transform: translate(0, 1000%);
-//  }
-//}
-//@keyframes circleSize {
-//  0%,
-//  100% {
-//    transform: scale(0);
-//  }
-//  25%,
-//  50% {
-//    transform: scale(1);
-//  }
-//}
-
-//position: absolute;
-//top: 50%;
-//       left: 50%;
-//               transform: translate(-50%, -50%);
-//width: 100%;
-//          height: 100%;
-//                     border-radius: 50%;
-//                                      --sizeCircles: 10%;
-//                                                       --time: 4s;
-//--count: 75;
-//--turns: 10;
 </style>

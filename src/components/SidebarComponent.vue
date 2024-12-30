@@ -59,7 +59,7 @@ function copySetting() {
     </Tabs>
     <div v-if="isMobile" class="transparent">
       <Checkbox v-model="isTransparent" binary />
-      <label>Прозрачность</label>
+      <label>Opacity</label>
     </div>
     <template v-if="currentTab === TAB_NAMES.EXAMPLES">
       <SettingExamples
@@ -71,10 +71,8 @@ function copySetting() {
     <template v-if="currentTab === TAB_NAMES.SETTINGS">
       <SettingForm v-model:const-css="constCss" @save-setting="emit('save-setting')" />
     </template>
-    <!--    TODO: сохранить в конечный вид-->
     <Card class="save">
       <template #content>
-        <!--        <Button label="Сохранить" severity="success" variant="outlined" @click="saveSetting" />-->
         <Button label="Copy to clipboard" severity="info" variant="outlined" @click="copySetting" />
       </template>
     </Card>
