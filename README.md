@@ -5,10 +5,10 @@
 ### [Example in codepen](https://codepen.io/indy660/pen/gbYmLVp)
 
 <div align="center">
-    <img src="example.svg" width="400" height="400" alt="css-in-readme">
+    <img src="./public/readme.svg" width="400" height="400" alt="readme-example-image">
 </div>
 
-<img src="./src/assets/gif_examples/0.gif" alt="Preview image" height="400"/>
+[//]: # (<img src="./src/assets/gif_examples/0.gif" alt="Preview image" height="400"/>)
 
 
 ---
