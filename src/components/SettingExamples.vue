@@ -7,11 +7,12 @@
           v-for="(example, index) in prop.examples"
           :key="index + example.numberOfCircles"
         >
-          <img
-            @click="emit('change-example', index)"
-            :src="getImageUrl(index)"
-            :alt="`Default example N${index + 1}`"
-          />
+          <!--          <img-->
+          <!--            @click="emit('change-example', index)"-->
+          <!--            :src="getImageUrl(index)"-->
+          <!--            :alt="`Default example N${index + 1}`"-->
+          <!--          />-->
+          <AnimationComponent :const-css="example" @click="emit('change-example', index)" />
           <div
             v-if="example.isCustom"
             class="button-delete"
@@ -27,6 +28,7 @@
 
 <script lang="ts" setup>
 import Card from 'primevue/card'
+import AnimationComponent from '@/components/AnimationComponent.vue'
 import type { constCssType } from '@/types'
 
 interface Props {
@@ -36,14 +38,15 @@ interface Props {
 const prop = defineProps<Props>()
 const emit = defineEmits(['change-example', 'delete-example'])
 
-function getImageUrl(index: number) {
-  // TODO: всё ещё криво решено, моно ли улучшить
-  const image = new URL(`../assets/gif_examples/${index}.gif`, import.meta.url).href
-  // console.log(image)
-  return image.includes('undefined')
-    ? new URL(`../assets/default-loader.png`, import.meta.url).href
-    : image
-}
+// уже не использую
+// function getImageUrl(index: number) {
+//   // TODO: всё ещё криво решено, можно ли улучшить
+//   const image = new URL(`../assets/gif_examples/${index}.gif`, import.meta.url).href
+//   // console.log(image)
+//   return image.includes('undefined')
+//     ? new URL(`../assets/default-loader.png`, import.meta.url).href
+//     : image
+// }
 </script>
 
 <style scoped lang="scss">

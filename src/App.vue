@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import Drawer from 'primevue/drawer'
 import Button from 'primevue/button'
+import AnimationComponent from '@/components/AnimationComponent.vue'
 import SidebarComponent from '@/components/SidebarComponent.vue'
 import Toast from 'primevue/toast'
 import { STATIC_EXAMPLES } from '@/static_examples'
@@ -14,7 +15,6 @@ const toast = useToast()
 
 const examplesFromStorage = ref<constCssType[]>([])
 
-// TODO: доделать мерж из локалстоража
 const examples = computed(() => {
   return [...STATIC_EXAMPLES, ...examplesFromStorage.value]
 })
@@ -50,9 +50,16 @@ const isTransparentStyle = computed(() => {
   return { opacity: isTransparent.value ? 0.8 : 1 }
 })
 
+// Сделано для перерисовки компонента
+const isLoaderVisible = ref(true)
 function changeLoader(index: number) {
-  currentPlaceholder.value = index
-  constCss.value = { ...examples.value[index] }
+  isLoaderVisible.value = false
+  const tTimeoutId = setTimeout(() => {
+    currentPlaceholder.value = index
+    constCss.value = { ...examples.value[index] }
+    isLoaderVisible.value = true
+    clearTimeout(tTimeoutId)
+  }, 0)
 }
 
 const KEY_STORAGE = 'CUSTOM_SETTINGS'
@@ -161,14 +168,8 @@ onMounted(() => {
 <template>
   <main>
     <Toast />
-    <div class="loader">
-      <div class="inner-circle" />
-      <div
-        v-for="index in constCss.numberOfCircles"
-        :key="index"
-        class="circle"
-        :style="{ '--i': index }"
-      />
+    <div v-if="isLoaderVisible" class="animation-wrapper">
+      <AnimationComponent :const-css="constCss" />
     </div>
     <div class="button-wrapper">
       <Button @click="isShowSidebar = !isShowSidebar" label="Settings" icon="pi pi-palette" />
@@ -208,59 +209,13 @@ main {
   width: 100vw;
   background: #333333;
   overflow: hidden;
-  .loader {
+  .animation-wrapper {
     position: relative;
+    width: 50%;
+    height: 50%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    width: var(--sizeLoader);
-    height: var(--sizeLoader);
-    border-radius: 50%;
-
-    --sizeLoader: v-bind('constCSSWrapper.sizeLoader');
-    --from: v-bind('constCSSWrapper.transformFrom');
-    --to: v-bind('constCSSWrapper.transformTo');
-    --sizeCircles: v-bind('constCSSWrapper.sizeCircles');
-    --time: v-bind('constCSSWrapper.time');
-    --count: v-bind('constCSSWrapper.count');
-    --turns: v-bind('constCSSWrapper.turns');
-    &:hover {
-      border: 1px solid #00ff00ff;
-    }
-    .circle {
-      position: absolute;
-      top: calc(50% - var(--sizeCircles) / 2);
-      left: calc(50% - var(--sizeCircles) / 2);
-      --delay: calc(var(--time) / var(--count) * -1 * var(--i));
-      rotate: calc(var(--turns) * 1turn / var(--count) * var(--i));
-      animation: circle var(--time) var(--delay) ease-in-out infinite;
-      width: var(--sizeCircles);
-    }
-    .circle::before {
-      content: '';
-      display: block;
-      aspect-ratio: 1/1;
-      border-radius: 50%;
-      transform-origin: center center;
-      animation: circleSize var(--time) var(--delay) ease-in-out infinite;
-      background-color: hsl(calc(1turn / (var(--count) / var(--turns)) * var(--i)) 100% 70%);
-    }
-    // just for show inner circle
-    .inner-circle {
-      width: v-bind('constCSSWrapper.sizeInnerCircles');
-      height: v-bind('constCSSWrapper.sizeInnerCircles');
-      border-radius: 50%;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      &:hover {
-        border: 1px solid #ff0000;
-      }
-    }
   }
   .button-wrapper {
     position: absolute;
@@ -277,26 +232,6 @@ main {
       top: 5vh;
       left: 0;
     }
-  }
-}
-
-/* animations */
-@keyframes circle {
-  from {
-    transform: translate(0, var(--from));
-  }
-  to {
-    transform: translate(0, var(--to));
-  }
-}
-@keyframes circleSize {
-  0%,
-  100% {
-    transform: scale(0);
-  }
-  25%,
-  50% {
-    transform: scale(1);
   }
 }
 </style>
