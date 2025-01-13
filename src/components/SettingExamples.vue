@@ -64,6 +64,7 @@ const emit = defineEmits(['change-example', 'delete-example'])
     background-size: cover;
     scale: 1;
     box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+    background: #333333;
     &:hover {
       scale: 1.05;
     }

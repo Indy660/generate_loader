@@ -108,7 +108,7 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label"> Size circles (--sizeCircles)</span>
+      <span class="label"> Size circles in percent (--sizeCircles)</span>
       <InputNumber
         class="field"
         v-model="constCss.sizeCircles"
