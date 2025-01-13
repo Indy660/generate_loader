@@ -29,16 +29,12 @@ const transformFromInPercent = computed(() => {
 const transformToInPercent = computed(() => {
   return (100 / 2 / constCss.value.sizeCircles) * constCss.value.transformTo
 })
-const sizeInnerCircles = computed(() => {
-  return (constCss.value.transformFrom / constCss.value.transformTo) * constCss.value.sizeLoader
-})
+
 const constCSSWrapper = computed(() => {
   return {
-    sizeLoader: constCss.value.sizeLoader + 'px',
     transformFrom: transformFromInPercent.value + '%',
     transformTo: transformToInPercent.value + '%',
     sizeCircles: constCss.value.sizeCircles + '%',
-    sizeInnerCircles: sizeInnerCircles.value + 'px',
     time: constCss.value.time + 's',
     count: constCss.value.count,
     turns: constCss.value.turns

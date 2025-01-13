@@ -74,23 +74,6 @@
           <span class="pi pi-minus" />
         </template>
       </InputNumber>
-      <span class="label"> Size loader (--sizeLoader)</span>
-      <InputNumber
-        class="field"
-        v-model="constCss.sizeLoader"
-        fluid
-        :step="10"
-        input-id="horizontal-buttons"
-        showButtons
-        buttonLayout="horizontal"
-      >
-        <template #incrementbuttonicon>
-          <span class="pi pi-plus" />
-        </template>
-        <template #decrementbuttonicon>
-          <span class="pi pi-minus" />
-        </template>
-      </InputNumber>
       <span class="label"> Outer border circle in percent (--transformFrom)</span>
       <InputNumber
         class="field"
