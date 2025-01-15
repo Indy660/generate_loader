@@ -126,7 +126,7 @@
         </template>
       </InputNumber>
       <Button
-        label="Save setting"
+        label="Save example"
         severity="success"
         variant="outlined"
         @click="emit('save-setting')"

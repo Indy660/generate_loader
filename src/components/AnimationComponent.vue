@@ -77,10 +77,10 @@ const constCSSWrapper = computed(() => {
 }
 @keyframes circle {
   from {
-    transform: translate(0, var(--from));
+    transform: translate3d(0, var(--from), 0);
   }
   to {
-    transform: translate(0, var(--to));
+    transform: translate3d(0, var(--to), 0);
   }
 }
 @keyframes circleSize {
